@@ -11,7 +11,6 @@ int partial_swap(int mat[MAX][MAX], int new_value, int i, int j) {
     return aux;
 }
 
-
 void printMatrix(int mat[MAX][MAX], int n, int m) {
     printf("MATRIX\n");
     for(int i = 0; i < n; i++) {
@@ -21,7 +20,6 @@ void printMatrix(int mat[MAX][MAX], int n, int m) {
     }
     printf("\n");
 }
-
 
 void rotate(int mat[MAX][MAX], int i, int j, int limit) {
     

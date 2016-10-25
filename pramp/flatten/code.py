@@ -1,7 +1,7 @@
 # your code goes here
 
 def flat(original_key, result, dic):
-	
+
 	for key in dic.iterkeys():
 		if type(dic[key]) is dict:
 			if original_key == '':
@@ -12,7 +12,7 @@ def flat(original_key, result, dic):
 			if original_key == '':
 				result[key] = dic[key]
 			else:
-				result[original_key + '.' + key] = dic[key] 
+				result[original_key + '.' + key] = dic[key]
 
 def solve(dic):
 	result = {}

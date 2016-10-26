@@ -13,7 +13,6 @@ struct Node {
     }
 
     void appendToTail(int d) {
-        
         Node *end = new Node;
         end->data = d;
         end->next = NULL;
@@ -60,7 +59,9 @@ Node* sumListsCaseI(Node *n1, Node *n2) {
         
         it->data = sum % 10;
 
-        if((n1 != NULL && n1->next != NULL) || (n2 != NULL && n2-> next != NULL))
+        if((n1 != NULL && n1->next != NULL) || 
+           (n2 != NULL && n2-> next != NULL) ||
+           (aux))
             it->next = new Node;
         else
             it->next = NULL;
@@ -74,49 +75,50 @@ Node* sumListsCaseI(Node *n1, Node *n2) {
         it->data = 1;
         it->next = NULL;
     }
-    else it = NULL;
     
     return res;
 }
 
-pair<Node*, Node*> auxListCaseII(Node* n1, Node* n2, int back, int &aux) {
+void auxListCaseII(Node* n1, Node* n2, int back, int &aux, Node* new_node, bool flag = true) {
     
-    if(n1 == NULL && n2 == NULL) return make_pair(NULL, new Node);
-    
-    pair<Node*, Node*> a1;
-    if(back > 0)
-        a1 = auxListCaseII(n1->next, n2, back-1, aux);
-    else 
-        a1 = auxListCaseII(n1->next, n2->next, back-1, aux);
-
-    Node* res = a1.second;
-    Node* ans = a1.first;
-
-    if(back <= 0) {
-        int sum = n1->data + n2->data + aux;
-        printf("%d %d\n", res->data, sum);
-        aux = sum >= 10;
-        res->data = sum % 10;
-            
-        if(back == 0) {
-            if(aux) {
-                res->next = new Node;
-                res->next->data = 1;
-                res->next->next = NULL;
-            }
-            else {
-                res->next = NULL;
-            }
-        }
-        else res->next = new Node;
-
-        if(ans == NULL) ans = res;
-        return make_pair(ans, res->next);
+    if(n1 == NULL && n2 == NULL) {
+        return;
     }
-    else return a1;
+
+    if(n1->next == NULL && n2->next == NULL)
+        new_node->next = NULL;
+    else
+        new_node->next = new Node;
+    
+    if(back > 0) 
+        auxListCaseII(n1->next, n2, back-1, aux, new_node->next, false);
+    else 
+        auxListCaseII(n1->next, n2->next, back-1, aux, new_node->next, false);
+
+    int sum;
+    if(back <= 0) {   
+        sum = n1->data + n2->data + aux;
+    }
+    else {
+        sum = n1->data + aux;
+    }
+
+    aux = sum >= 10;
+    int data = sum % 10;
+
+    if(flag && aux) {
+        Node* old_next = new_node->next;
+        new_node->data = 1;
+        new_node->next = new Node;
+        new_node->next->data = data;
+        new_node->next->next = old_next;
+    }
+    else {
+        new_node->data = data;
+    }
 }
 
-/*Node* sumListsCaseII(Node* n1, Node* n2) {
+Node* sumListsCaseII(Node* n1, Node* n2) {
 
     int size_n1 = 0;
     int size_n2 = 0;
@@ -128,9 +130,12 @@ pair<Node*, Node*> auxListCaseII(Node* n1, Node* n2, int back, int &aux) {
     while(it != NULL) { size_n2++; it = it->next; }
 
     int aux = 0;
-    if(n1 > n2) return auxListCaseII(n1, n2, size_n1 - size_n2, aux).first;
-    else return auxListCaseII(n2, n1, size_n2 - size_n1, aux).first;    
-}*/
+    Node * new_node = new Node;
+    if(n1 > n2) auxListCaseII(n1, n2, size_n1 - size_n2, aux, new_node);
+    else auxListCaseII(n2, n1, size_n2 - size_n1, aux, new_node);    
+    
+    return new_node;
+}
 
 Node* createLinkedList(int a[], int size) {
     Node *n = new Node;
@@ -143,12 +148,17 @@ Node* createLinkedList(int a[], int size) {
 
 int main() {
 
-    int size_a = 3;
-    int a[] = {1, 2, 3};
+    int size_a = 2;
+//  int a[] = {1, 2, 3};
+//  int a[] = {9, 9};
+    int a[] = {9, 9};
     Node* n1 = createLinkedList(a, size_a);
  
-    int size_b = 5;
-    int b[] = {1, 2, 3, 1, 2};
+    int size_b = 2;
+//  int b[] = {1, 2, 3, 1, 2};
+//  int b[] = {9, 8, 1, 5, 9, 5};
+
+    int b[] = {9, 9};
     Node* n2 = createLinkedList(b, size_b);
     
     printf("Linked list a\n");
@@ -160,8 +170,8 @@ int main() {
     printf("Sum case I\n");
     sumListsCaseI(n1, n2)->printLinked();
 
-//  printf("Sum case II\n");
-//    sumListsCaseII(n1, n2)->printLinked();
+    printf("Sum case II\n");
+    sumListsCaseII(n1, n2)->printLinked();
 
     return 0;
 }

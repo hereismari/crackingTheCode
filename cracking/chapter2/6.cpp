@@ -37,29 +37,38 @@ struct Node {
 
 };
 
-Node* partition(int x, Node *n) {
+Node* reverse(Node *n) {
+    Node *head = NULL;
+    Node *it = n;
 
-    Node* head = n;
-    Node* tail = n;
-
-    Node *t = n->next;
-    while(t != NULL) {
-
-        Node *old_next = t->next;
-
-        if(t->data < x) {
-            t->next = head;
-            head = t;
-        }
-        else {
-            tail->next = t;
-            tail = t;
-        }
-        t = old_next;
+    while(it != NULL) {
+        Node* new_node = new Node;
+        new_node->data = it->data;
+        new_node->next = head;
+        head = new_node;
+        it = it->next;
     }
 
-    tail->next = NULL;
     return head;
+}
+
+bool isPalindrome(Node *n) {
+
+    Node* rev_n = reverse(n);
+    rev_n->printLinked();
+
+    Node* it1 = n;
+    Node* it2 = rev_n;
+
+    while(it1 != NULL && it2 != NULL) {
+        if(it1->data != it2->data)
+            return false;
+
+        it1 = it1->next;
+        it2 = it2->next;
+    }
+
+    return true;
 }
 
 int main() {
@@ -78,14 +87,10 @@ int main() {
     printf("Linked list :)\n");
     n->printLinked();
 
-    n = partition(3, n);
-    printf("Partition 3\n");
-    n->printLinked();
- 
-
-    n = partition(5, n);
-    printf("Partition 5\n");
-    n->printLinked();
+    if(isPalindrome(n))
+        printf("YES\n");
+    else
+        printf("NO\n");
 
     return 0;
 }

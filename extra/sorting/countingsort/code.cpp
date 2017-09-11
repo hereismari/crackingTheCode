@@ -26,14 +26,24 @@ void countingsort(vector<int> v) {
 
     for(int i = 1; i <= max_v; i++) aux[i] += aux[i-1];
 
+    // not stable, but less add memory
+    /*
     for(int i = 0, j = 0; i <= max_v && j < v.size(); i++) {
         while(aux[i] > j) {
             v[j] = i;
             j++;
         }
     }
+    */
+
+    // stable, uses more memory
+    vector<int> output(v.size());
+    for(int i = v.size()-1; i >= 0; i--) {
+        output[aux[v[i]]-1] = v[i];
+        aux[v[i]]--;
+    }
     
-    printVector(v);
+    printVector(output);
 }
 
 

@@ -1,51 +1,51 @@
 #include <stdio.h>
+#include <string>
+#include <iostream>
 
 using namespace std;
 
-char* solve(char s[], int n) {
+string solve(string s) {
 
     // checks if new string length is smaller then the original length
     int new_length = 2;
 
-    for(int i = 1; i < n; i++) {
+    for(int i = 1; i < s.size(); i++) {
         if(s[i] != s[i-1]) {
             new_length += 2; // 1(number) + 1(char it self)
         }
     }
     
-    if(new_length < n) {
+    if(new_length < s.size()) {
 
         int counter = 1;
         int j = 0;
-        char aux = s[0];
-        for(int i = 1; i < n; i++) {
-            if(s[i] != aux) {
-                char help_aux = s[i];
-                s[j++] = aux;
-                s[j++] = (counter + '0');
-                aux = help_aux;
+        
+        string output = "";
+        for(int i = 1; i < s.size(); i++) {
+            if(s[i] != s[i-1]) {
+                output += s[i-1];
+                output += to_string(counter);
                 counter = 1;
             }
             else counter++;
         }
-
-        s[j++] = aux;
-        s[j++] = counter + '0';
-        s[j] = '\0';
+    
+        output += s[s.size()-1];
+        output += to_string(counter);
+        
+        return output;
     }
-
-    return s;
+    else {
+        return s;
+    }
 }
 
 int main() {
 
-    int n;
-    scanf("%d", &n);
-    
-    char s[n];
-    scanf("\n%s", s);
+    string s;
+    cin >> s;
 
-    printf("%s\n", solve(s, n));
+    cout << solve(s) << '\n';
 
     return 0;
 }

@@ -7,8 +7,7 @@ using namespace std;
 
 #define MAX_ASC_II 257
 
-bool solve1(string s, string t) {
-    
+bool solve1(string s, string t) {    
     sort(s.begin(), s.end());
     sort(t.begin(), t.end());
     
@@ -32,8 +31,28 @@ bool solve2(string s, string t) {
     return true;
 }
 
-int main() {
+bool solve3(string s, string t) {
+    for(int i = 0; i < MAX_ASC_II; i++) {
+        int cont_s = 0, cont_t = 0;
+        for(int j = 0; j < s.size(); j++) {
+            for(int k = 0; k < s.size(); k++) {
+                if((int)s[j] == i) {
+                    cont_s++;
+                }
+                if((int)s[k] == i) {
+                    cont_t++;
+                }
+            }
+        }
 
+        if(cont_s != cont_t) return false;
+    }
+
+    return true;
+}
+
+
+int main() {
 
     string s1, s2;
 
@@ -41,6 +60,7 @@ int main() {
 
     printf("%s\n", solve1(s1, s2) ? "YES" : "NO");
     printf("%s\n", solve2(s1, s2) ? "YES" : "NO");
+    printf("%s\n", solve3(s1, s2) ? "YES" : "NO");
 
     return 0;
 }

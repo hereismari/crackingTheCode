@@ -1,4 +1,5 @@
-#include <bits/stdc++.h>
+#include <stdio.h>
+#include <set>
 
 using namespace std;
 
@@ -58,6 +59,29 @@ struct Node {
         }
     }
 
+    void removeDupsBuffer() {
+
+        Node* t1 = this;
+        Node* t2 = t1-> next;
+        
+        if(t2 == NULL) return;
+        
+        set<int> s;
+        s.insert(t1->data);
+
+        while(t2 != NULL) {
+            if(s.find(t2->data) != s.end()) {
+                t1->next = t2->next;
+                t2 = t2->next;
+            }
+            else {
+                s.insert(t2->data);
+                t1 = t2;
+                t2 = t2->next;
+            }
+        }
+    }
+
 };
 
 int main() {
@@ -77,6 +101,7 @@ int main() {
     n->printLinked();
     
     n->removeDups();
+    // n-> removeDupsBuffer();
     printf("Removed dups\n");
     n->printLinked();
 

@@ -78,12 +78,12 @@ int main() {
     printf("Linked list :)\n");
     n->printLinked();
 
-    n = partition(3, n);
+    n = partition2(3, n);
     printf("Partition 3\n");
     n->printLinked();
  
 
-    n = partition(5, n);
+    n = partition2(5, n);
     printf("Partition 5\n");
     n->printLinked();
 

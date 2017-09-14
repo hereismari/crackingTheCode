@@ -28,38 +28,49 @@ struct Node {
 
     void printLinked() {
         Node* n = this;
-        while(n->next != NULL) { 
-            printf("%d --> ", n->data); 
-            n = n->next;
+        
+        if(n->data == -1) {
+            printf("EMPTY\n");
         }
-        printf("%d\n", n->data);
+        else {
+            
+            while(n->next != NULL) { 
+                printf("%d --> ", n->data); 
+                n = n->next;
+            }
+            printf("%d\n", n->data);
+    
+        }
     }
 
     void removeMiddle() {
-        
+
         Node* t1 = this;
         Node *prev_t2 = NULL;
         Node *t2 = this;
 
-        int cont = 0;
-        while(t1 != NULL) {
+        if(t1->next == NULL) {
+            t1->data = -1;
+        }
+        else {
+            int cont = 0;
+            while(t1 != NULL) {
+                if(cont == 2) {
+                    prev_t2 = t2;
+                    t2 = t2->next;
+                }
+
+                cont = cont % 2;
+                cont = cont + 1;
+                t1 = t1->next;
+            }
             if(cont == 2) {
-                prev_t2 = t2;
-                t2 = t2->next;
+                  prev_t2 = t2;
+                  t2 = t2->next;
             }
 
-            cont = cont % 2;
-            cont = cont + 1;
-            t1 = t1->next;
-        }
 
-        prev_t2->next = t2->next;
-    }
-
-    void removeNode() {
-        if(this->next != NULL) {
-            this->data = this->next->data;
-            this->next = this->next->next;
+            prev_t2->next = t2->next;
         }
     }
 };
@@ -95,6 +106,19 @@ int main() {
     
     n->removeMiddle();
     n->printLinked();
- 
+    
+    n->removeMiddle();
+    n->printLinked();
+   
+    n->removeMiddle();
+    n->printLinked();
+     
+    n->removeMiddle();
+    n->printLinked();
+    
+    n->removeMiddle();
+    n->printLinked();
+    
+
     return 0;
 }
